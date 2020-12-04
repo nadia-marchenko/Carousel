@@ -1,0 +1,17 @@
+@import "../../styles/constants";
+
+.main-navigation {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 25px 25px 55px 5px/5px 55px 25px 25px;
+  background-color: $additional-color;
+  padding: .5rem 1rem;
+  text-align: center;
+}
+
+.main-navigation a {
+  font-family: 'Cabin Sketch', cursive;
+  color: $light-color;
+  text-decoration: none;
+  font-size: 1.4rem;
+}

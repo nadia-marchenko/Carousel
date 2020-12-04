@@ -1,0 +1,19 @@
+@import "./constants";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: primary-color;
+  font-family: 'Neucha', cursive, 'Arial', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.content-wrapper {
+  max-width: 1197px;
+  width: 90%;
+  margin: 0 auto;
+}

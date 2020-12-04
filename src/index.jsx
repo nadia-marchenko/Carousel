@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './sass/index.scss';
+import './styles/index.scss';
+import Header from './components/Header';
 
 const App = () => {
   return (
     <div>
-      <h2 id="heading">Carousel </h2>
-      <header />
+      <Header/>
     </div>
   );
 };
 
-const mountNode = document.getElementById('app');
+const mountNode = document.querySelector('#app');
 ReactDOM.render(<App />, mountNode);
