@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function NothingPlugin() {
@@ -34,6 +34,7 @@ const config = (env) => ({
             loader: 'url-loader',
             options: {
               limit: 8192,
+              name: '[name].[ext]',
             },
           },
         ],
@@ -71,10 +72,6 @@ const config = (env) => ({
           'postcss-loader',
           'sass-loader',
         ],
-      },
-      {
-        test: /\.mp3$/,
-        loader: 'file-loader'
       },
     ]
   },

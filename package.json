@@ -6,9 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm dist/bundle.js",
-    "build-dev": "webpack -d --mode development",
-    "build-prod": "webpack -d --mode production",
-    "start": "webpack-dev-server --hot --mode development"
+    "dev": "webpack -d",
+    "prod": "webpack -p",
+    "dev-start": "webpack-dev-server --hot -d",
+    "start": "webpack-dev-server --hot --mode development",
+    "lint": "eslint --fix --ext .js,.jsx .",
+    "lint fix": "lint node_modules/.bin/eslint --fix src"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,7 @@
   },
   "homepage": "https://github.com/nadia-marchenko/Carousel#readme",
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0"

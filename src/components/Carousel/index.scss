@@ -1,0 +1,28 @@
+@import "../../styles/constants";
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 25px;
+  overflow: hidden;
+}
+
+.arrow {
+  font-size: 2rem;
+  position: relative;
+  top: 220px;
+  color: $additional-color;
+  cursor: pointer;
+}
+
+.prev-arrow {
+  margin-right: 12px;
+}
+
+.next-arrow {
+  margin-left: 12px;
+}
+
+.arrow:hover {
+  color: $primary-color;
+}
