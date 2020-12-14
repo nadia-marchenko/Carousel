@@ -1,28 +1,66 @@
 @import "../../styles/constants";
 
 .card-container {
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  display: flex;
   display: flex;
   justify-content: space-between;
   padding-top: 25px;
-  overflow: hidden;
 }
 
 .arrow {
   font-size: 2rem;
-  position: relative;
-  top: 220px;
+  // position: relative;
+  position: absolute;
+  top: 240px;
+  z-index: 1;
   color: $additional-color;
   cursor: pointer;
 }
 
-.prev-arrow {
-  margin-right: 12px;
-}
-
-.next-arrow {
-  margin-left: 12px;
-}
-
 .arrow:hover {
   color: $primary-color;
+}
+
+.prev-arrow {
+  margin-left: 0.81vw;
+}
+
+@media screen and (min-width: 1345px) {
+  .next-arrow {
+    margin-left: 1138px;
+  }
+}
+
+@media screen and (max-width: 1345px) {
+  .next-arrow {
+    margin-left: 85vw;
+  }
+}
+
+@media screen and (max-width: 965px) {
+  .next-arrow {
+    margin-left: 82.7vw;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .next-arrow {
+    margin-left: 80.7vw;
+  }
+}
+
+@media screen and (max-width: 505px) {
+  .next-arrow {
+    margin-left: 78.7vw;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .next-arrow {
+    margin-left: 76.7vw;
+  }
 }

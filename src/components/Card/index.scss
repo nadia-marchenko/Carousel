@@ -3,15 +3,35 @@
 
 .card {
   display: block;
-  margin-right: 10px;
-  width: 27.3%;
+  margin-right: 30px;
+  width: 31.333%;
   justify-content: center;
   flex-shrink: 0;
   border: 2px solid $additional-color;
   border-radius: 5px 5px 5px 5px/25px 25px 25px 5px;
   text-align: center;
   background-color: $light-color;
+  transform: translate(0px);
+  // animation: 5s ease-in-out;
 }
+
+.move {
+  animation-name: left;
+  animation: 0.5s ease-in-out;
+}
+
+@keyframes left {
+  from {
+    left: 0%;
+  }
+  to {
+    left: -33.8%;
+  }
+}
+
+// .card:nth-child(4) {
+//   display: none;
+// }
 
 .card img {
   max-height: 300px;
@@ -32,14 +52,51 @@
   text-align: justify;
 }
 
+.to-left {
+  animation-name: left;
+}
+
+.to-right {
+  animation-name: right;
+  animation-direction: reverse;
+}
+
+.from-left {
+  animation-name: left;
+  animation-direction: reverse;
+  animation-delay: 3s;
+}
+
+.from-right {
+  animation-name: right;
+}
+
+@keyframes left {
+  from {
+    left: 0%;
+  }
+  to {
+    left: -33.3%;
+  }
+}
+
+@keyframes right {
+  from {
+    left: 100%;
+  }
+  to {
+    left: 0;
+  }
+}
+
 @media screen and (max-width: 960px) {
   .card {
     width: 47.4%;
   }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 660px) {
   .card {
-    width: 92%;
+    width: 97%;
   }
 }
