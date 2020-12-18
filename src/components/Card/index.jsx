@@ -14,7 +14,6 @@ const Card = (props) => {
 
   useEffect(() => {
     props.passWidth(ref.current.clientWidth);
-    console.log(ref.current.clientWidth);
   });
   
   return (

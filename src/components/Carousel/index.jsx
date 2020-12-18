@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import Card from '../Card';
 import './index.scss';
 import cardsData from '../../@constants';
-// import useWindowDimensions from '../Helper';
 
 const Carousel = () => {
   const [scale, setScale] = useState(0);
   const [width, setWidth] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [isDragging, setDragging] = useState(false);
-  // const [touchEnd, setTouchEnd] = useState(0);
+  const [deltaDiff, setDeltaDIff] = useState(0);
+  const CARD_SIZE = width + 33;
+  const CARDS_ON_SCREEN = 3;
 
   const onChangeWidth = (newWidth) => {
     setWidth(newWidth);
@@ -20,20 +21,22 @@ const Carousel = () => {
     <Card key={item.id} name={item.name} caption={item.caption} passWidth={onChangeWidth} passScale={setScale}/>, this
   );
 
+  const CARDS_NUM = cardItems.length;
+
   const prevArrowHandle = () => {
 
     if(scale >= 0) {
-      setScale(-(width + 33) * (cardItems.length - 3));
+      setScale(-CARD_SIZE * (CARDS_NUM - CARDS_ON_SCREEN));
     } else {
-      setScale(scale + width + 3 + 30);
+      setScale(scale + CARD_SIZE);
     }
   }
 
   const nextArrowHandle = () => {
-    if(scale <= -(width + 33) * (cardItems.length - 3)) {
+    if(scale <= -CARD_SIZE * (CARDS_NUM - CARDS_ON_SCREEN)) {
       setScale(0);
     } else {
-      setScale(scale - width - 3 - 30);
+      setScale(scale - CARD_SIZE);
     }
     
   }
@@ -44,7 +47,6 @@ const Carousel = () => {
     e.target.setPointerCapture(e.pointerId);
 
     setTouchStart(e.clientX);
-    console.log('event', e);
   }
 
   const handleTouchMove = (e) => {
@@ -52,42 +54,24 @@ const Carousel = () => {
       return;
     }
 
-    // setTouchEnd(e.clientX);
-
-    if(scale < -(width + 33) * (cardItems.length - 3) + width) {
+    if(scale < -CARD_SIZE * (CARDS_NUM - CARDS_ON_SCREEN) + width) {
       setScale(0);
     } else if (scale > 0) {
-      setScale(-(width + 33) * (cardItems.length - 3));
+      setScale(-CARD_SIZE * (CARDS_NUM - CARDS_ON_SCREEN));
     } else {
       setScale(scale - touchStart + e.clientX);
+      setDeltaDIff(touchStart - e.clientX);
     }
-    console.log('touchStart - e.clientX', touchStart - e.clientX);
-    // setScale(scale + touchStart - touchEnd);
-
-    // setScale(scale + touchEnd);
   }
 
   const handleTouchEnd = () => {
+    if(deltaDiff < width) {
+      setScale(scale + CARD_SIZE);
+    } else {
+      setScale(scale - CARD_SIZE);
+    }
     setDragging(false);
-    // if(scale < -(width + 33) * (cardItems.length - 3) + width) {
-    //   setScale(0);
-    // } else if (scale > 0) {
-    //   setScale(-(width + 33) * (cardItems.length - 3));
-    // } else {
-    //   setScale(scale - touchStart + touchEnd);
-    // }
-
-    console.log('touchStart', touchStart);
-    // console.log('touchEnd', touchEnd);
 }
-
-// useEffect(() => {
-//   document.addEventListener('pointermove', handleTouchMove);
-
-//   return () => {
-//     document.removeEventListener('pointermove', handleTouchMove);
-//   };
-// }, []);
 
   return (
     <main className="content-wrapper">
@@ -107,15 +91,6 @@ const Carousel = () => {
         <div className="arrow prev-arrow" onClick={prevArrowHandle} aria-hidden="true" onPointerDown={() => false}>❮</div>
         <div className="arrow next-arrow" onClick={nextArrowHandle} aria-hidden="true" onPointerDown={() => false}>❯</div>
       </section>
-      <p>
-        Width of card: {width}
-      </p>
-      <p>
-        touchStart move: {touchStart}
-      </p>
-      {/* <p>
-        touchEnd move: {touchEnd}
-      </p> */}
     </main>
   );
 };
