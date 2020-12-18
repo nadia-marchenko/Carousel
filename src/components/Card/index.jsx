@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef  } from 'react';
 import './index.scss';
 import PropTypes from "prop-types";
 
@@ -9,14 +9,19 @@ function importAll(r) {
 importAll(require.context('../../assets', true, /\.jpg$/));
 
 const Card = (props) => {
-  const { name, caption, scale, isEnable } = props;
+  const { name, caption } = props;
+  const ref = useRef(null)
+
+  useEffect(() => {
+    props.passWidth(ref.current.clientWidth);
+    console.log(ref.current.clientWidth);
+  });
+  
   return (
-     <div className={isEnable ? 'card' : 'card'} style={{ transform: `translate(${scale}px)`, transitionDuration: '.4s' }} >
-    {/* //<div className={isEnable ? 'move card' : 'card'} style={{ transform: `translate(${scale}%)`, transitionDuration: '.4s' }} > */}
-    {/* // <div className='card' style= {{ isEnable ? width: '0px', transitionDuration: '4s' }} : '' }> */}
-      <img src={`/${name}.jpg`} alt={name}/>
-      <h2>{name}</h2>
-      <p>{caption}</p>
+     <div ref={ref} className='card' onPointerDown={() => false} onDragStart={() => false} role="button" tabIndex="0">
+      <img src={`/${name}.jpg`} alt={name} onPointerDown={() => false} onDragStart={() => false} aria-hidden="true"/>
+      <h2 onPointerDown={() => false} onDragStart={() => false} aria-hidden="true">{name}</h2>
+      <p onPointerDown={() => false} onDragStart={() => false} aria-hidden="true">{caption}</p>
     </div>
   );
 };
@@ -24,8 +29,7 @@ const Card = (props) => {
 Card.propTypes = {
   name: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
-  scale: PropTypes.number.isRequired,
-  isEnable: PropTypes.bool.isRequired,
+  passWidth: PropTypes.func.isRequired,
 };
 
 export default Card;

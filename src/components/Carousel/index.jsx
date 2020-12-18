@@ -2,80 +2,120 @@ import React, { useState } from 'react';
 import Card from '../Card';
 import './index.scss';
 import cardsData from '../../@constants';
+// import useWindowDimensions from '../Helper';
 
 const Carousel = () => {
   const [scale, setScale] = useState(0);
-  const [clickNums, setClickNums] = useState(3);
-  const [isEnable, setEnable] = useState(false);
+  const [width, setWidth] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [isDragging, setDragging] = useState(false);
+  // const [touchEnd, setTouchEnd] = useState(0);
 
-  // const cardItems = cardsData.map((item) => 
-  //   <Card key={item.id} name={item.name} caption={item.caption} />, this
-  // );
+  const onChangeWidth = (newWidth) => {
+    setWidth(newWidth);
+  }
 
-  const cardItems = [];
 
-   for(let i = clickNums - 3; i < clickNums + 2; i += 1) {
-     const index = Math.abs(i) % 10
-     if (i === clickNums - 3) {
-      console.log(index)
-      cardItems.push(<Card 
-        key={cardsData[index].id} 
-        name={cardsData[index].name} 
-        caption={cardsData[index].caption}
-        isEnable={isEnable}
-         scale={-420.16 * (i - clickNums + 3) }
-        />);
-     } else {
-      console.log(index)
-      cardItems.push(<Card 
-        key={cardsData[index].id} 
-        name={cardsData[index].name} 
-        caption={cardsData[index].caption}
-        isEnable={isEnable}
-        scale={6 * (clickNums - 3 - i)}
-        />);
-     }
-     
-   }
-  //  cardsData.map((item) => 
-  //   <Card key={item.id} name={item.name} caption={item.caption} />, this
-  // );
+  const cardItems = cardsData.map((item) => 
+    <Card key={item.id} name={item.name} caption={item.caption} passWidth={onChangeWidth} passScale={setScale}/>, this
+  );
 
   const prevArrowHandle = () => {
-    setEnable(true);
 
-    setClickNums(clickNums + 1);
     if(scale >= 0) {
-      setScale(-236.88);
+      setScale(-(width + 33) * (cardItems.length - 3));
     } else {
-      setScale(scale + 33.84);
+      setScale(scale + width + 3 + 30);
     }
   }
 
   const nextArrowHandle = () => {
-    setEnable(true);
-    setClickNums(clickNums + 1);
-    // if(clickNums % 3 === 0) {
-    //   setScale(0);
-    // } else {
-    //   setScale(scale-33.84);
-    // }
-    // if(scale <= -236.88) {
-    //   setScale(0);
-    // } else {
-    //  setScale(scale - 33.84);
-    // }
+    if(scale <= -(width + 33) * (cardItems.length - 3)) {
+      setScale(0);
+    } else {
+      setScale(scale - width - 3 - 30);
+    }
+    
   }
+
+  const handleTouchStart = (e) => {
+    e.preventDefault();
+    setDragging(true);
+    e.target.setPointerCapture(e.pointerId);
+
+    setTouchStart(e.clientX);
+    console.log('event', e);
+  }
+
+  const handleTouchMove = (e) => {
+    if(!isDragging) {
+      return;
+    }
+
+    // setTouchEnd(e.clientX);
+
+    if(scale < -(width + 33) * (cardItems.length - 3) + width) {
+      setScale(0);
+    } else if (scale > 0) {
+      setScale(-(width + 33) * (cardItems.length - 3));
+    } else {
+      setScale(scale - touchStart + e.clientX);
+    }
+    console.log('touchStart - e.clientX', touchStart - e.clientX);
+    // setScale(scale + touchStart - touchEnd);
+
+    // setScale(scale + touchEnd);
+  }
+
+  const handleTouchEnd = () => {
+    setDragging(false);
+    // if(scale < -(width + 33) * (cardItems.length - 3) + width) {
+    //   setScale(0);
+    // } else if (scale > 0) {
+    //   setScale(-(width + 33) * (cardItems.length - 3));
+    // } else {
+    //   setScale(scale - touchStart + touchEnd);
+    // }
+
+    console.log('touchStart', touchStart);
+    // console.log('touchEnd', touchEnd);
+}
+
+// useEffect(() => {
+//   document.addEventListener('pointermove', handleTouchMove);
+
+//   return () => {
+//     document.removeEventListener('pointermove', handleTouchMove);
+//   };
+// }, []);
 
   return (
     <main className="content-wrapper">
-      <section className="card-container">
-        <div className="swiper-wrapper" >
+      <section className="card-container" >
+        <div 
+          className="swiper-wrapper" 
+          style={{ transform: `translate(${scale}px`, transitionDuration: '.3s' }}
+          onPointerDown ={(e) => handleTouchStart(e)}
+          onPointerMove ={(e) => handleTouchMove(e)}
+          onPointerUp={(e) => handleTouchEnd(e)}
+          role="button"
+          tabIndex="0"
+          onDragStart={() => false}
+        >
           {cardItems}
         </div>
-        <div className="arrow prev-arrow" onClick={prevArrowHandle} aria-hidden="true">❮</div>
-        <div className="arrow next-arrow" onClick={nextArrowHandle} aria-hidden="true">❯</div>
+        <div className="arrow prev-arrow" onClick={prevArrowHandle} aria-hidden="true" onPointerDown={() => false}>❮</div>
+        <div className="arrow next-arrow" onClick={nextArrowHandle} aria-hidden="true" onPointerDown={() => false}>❯</div>
       </section>
+      <p>
+        Width of card: {width}
+      </p>
+      <p>
+        touchStart move: {touchStart}
+      </p>
+      {/* <p>
+        touchEnd move: {touchEnd}
+      </p> */}
     </main>
   );
 };

@@ -6,9 +6,10 @@
 
 .swiper-wrapper {
   display: flex;
-  display: flex;
   justify-content: space-between;
   padding-top: 25px;
+  cursor: grab;
+  touch-action: 'none';
 }
 
 .arrow {
